@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Form</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+  }
+  
+  form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+  }
+  
+  form div {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input[type="email"],
+  input[type="password"],
+  button {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+  
+  .error {
+    color: red;
+    font-size: 14px;
+  }
+  
+  .success {
+    color: green;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<form id="signupForm">
+  <div>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <span id="emailError" class="error"></span>
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <span id="passwordError" class="error"></span>
+  </div>
+  <button type="submit">Submit</button>
+</form>
+
+<script>
+document.getElementById('signupForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent form submission
+  
+  // Perform validation
+  var email = document.getElementById('email').value;
+  var password = document.getElementById('password').value;
+  
+  var isValidEmail = validateEmail(email);
+  var isValidPassword = validatePassword(password);
+  
+  if (isValidEmail && isValidPassword) {
+    // All good, show success message
+    // document.getElementById('emailError').textContent = 'All good to go';
+    document.getElementById('passwordError').textContent = 'All good to go';
+    
+    // Show confirmation window
+    if (confirm('Do you want to sign up?')) {
+      alert('Successful signup!');
+    } else {
+      // Clear form inputs
+      document.getElementById('signupForm').reset();
+    }
+  }
+});
+
+// Function to validate email
+function validateEmail(email) {
+  var isValid = true;
+  var emailError = document.getElementById('emailError');
+  
+  if (email.length < 3 || !email.includes('@') || !email.includes('.')) {
+    emailError.textContent = 'Email should have at least 3 characters and contain "@" and "."';
+    isValid = false;
+  }
+  
+  return isValid;
+}
+
+// Function to validate password
+function validatePassword(password) {
+  var isValid = true;
+  var passwordError = document.getElementById('passwordError');
+  
+  if (password.length < 8) {
+    passwordError.textContent = 'Password should have at least 8 characters';
+    isValid = false;
+  }
+  
+  return isValid;
+}
+
+// Event listener for email input
+document.getElementById('email').addEventListener('input', function() {
+  var email = this.value;
+  if (email.length >= 3 && email.includes('@') && email.includes('.')) {
+    document.getElementById('emailError').textContent = 'All good to go';
+  } else {
+    document.getElementById('emailError').textContent = '';
+  }
+});
+
+// Event listener for password input
+document.getElementById('password').addEventListener('input', function() {
+  var password = this.value;
+  if (password.length >= 8) {
+    document.getElementById('passwordError').textContent = 'All good to go';
+  } else {
+    document.getElementById('passwordError').textContent = '';
+  }
+});
+</script>
+
+</body>
+</html>
